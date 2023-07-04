@@ -74,6 +74,7 @@ module.exports.app = (optionsArg = {}) => {
 
   providerManager.addProviderOptions(options, grantConfig)
 
+  console.log('options', options)
   const { customProviders } = options
   if (customProviders) {
     providerManager.addCustomProviders(customProviders, providers, grantConfig)
@@ -103,6 +104,9 @@ module.exports.app = (optionsArg = {}) => {
   // See https://github.com/simov/grant#dynamic-http
   app.use('/connect/:authProvider/:override?', express.urlencoded({ extended: false }), getCredentialsOverrideMiddleware(providers, options))
   app.use(Grant(grantConfig))
+
+  console.log('grantConfig', grantConfig)
+
 
   app.use((req, res, next) => {
     if (options.sendSelfEndpoint) {

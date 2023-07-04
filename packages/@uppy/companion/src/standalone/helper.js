@@ -115,6 +115,10 @@ const getConfigFromEnv = () => {
         key: process.env.COMPANION_UNSPLASH_KEY,
         secret: process.env.COMPANION_UNSPLASH_SECRET,
       },
+      webdav: {
+        key: '4NnL4c7FrPpAtlX3YDw8xxJfPc94PAGZbqY9erLCc0I0cM6X7pWdEH0aXDDjTXAu',
+        secret: 'tOFBw8deqOpB7cLKKb6R6IFa4ycmnC7QaFPC7RkLQvNZwEatrmXkB3VQdmjPR3uh',
+      },
     },
     s3: {
       key: process.env.COMPANION_AWS_KEY,

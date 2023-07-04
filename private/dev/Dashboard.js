@@ -4,6 +4,7 @@ import Uppy, { debugLogger } from '@uppy/core'
 import Dashboard from '@uppy/dashboard'
 import RemoteSources from '@uppy/remote-sources'
 import Webcam from '@uppy/webcam'
+import WebDAV from '@uppy/webdav'
 import ScreenCapture from '@uppy/screen-capture'
 import GoldenRetriever from '@uppy/golden-retriever'
 import Tus from '@uppy/tus'
@@ -61,6 +62,9 @@ export default () => {
 
   const uppyDashboard = new Uppy({
     logger: debugLogger,
+    onBeforeFileAdded(file) {
+      console.log('FILE', file)
+    },
     meta: {
       username: 'John',
       license: 'Creative Commons',
@@ -80,7 +84,7 @@ export default () => {
       proudlyDisplayPoweredByUppy: true,
       note: `${JSON.stringify(restrictions)}`,
     })
-    // .use(GoogleDrive, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
+    .use(WebDAV, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Instagram, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Dropbox, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Box, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
@@ -89,23 +93,23 @@ export default () => {
     // .use(Zoom, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Url, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Unsplash, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
-    .use(RemoteSources, {
-      companionUrl: COMPANION_URL,
-      sources: ['Box', 'Dropbox', 'Facebook', 'GoogleDrive', 'Instagram', 'OneDrive', 'Unsplash', 'Zoom', 'Url'],
-      companionAllowedHosts,
-    })
-    .use(Webcam, {
-      target: Dashboard,
-      showVideoSourceDropdown: true,
-      showRecordingLength: true,
-    })
-    .use(Audio, {
-      target: Dashboard,
-      showRecordingLength: true,
-    })
-    .use(ScreenCapture, { target: Dashboard })
-    .use(Form, { target: '#upload-form' })
-    .use(ImageEditor, { target: Dashboard })
+    // .use(RemoteSources, {
+    //   companionUrl: COMPANION_URL,
+    //   sources: ['Box', 'Dropbox', 'Facebook', 'GoogleDrive', 'Instagram', 'OneDrive', 'Unsplash', 'Zoom', 'Url'],
+    //   companionAllowedHosts,
+    // })
+    // .use(Webcam, {
+    //   target: Dashboard,
+    //   showVideoSourceDropdown: true,
+    //   showRecordingLength: true,
+    // })
+    // .use(Audio, {
+    //   target: Dashboard,
+    //   showRecordingLength: true,
+    // })
+    // .use(ScreenCapture, { target: Dashboard })
+    // .use(Form, { target: '#upload-form' })
+    // .use(ImageEditor, { target: Dashboard })
     .use(DropTarget, {
       target: document.body,
     })
