@@ -93,11 +93,11 @@ export default () => {
     // .use(Zoom, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Url, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Unsplash, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
-    // .use(RemoteSources, {
-    //   companionUrl: COMPANION_URL,
-    //   sources: ['Box', 'Dropbox', 'Facebook', 'GoogleDrive', 'Instagram', 'OneDrive', 'Unsplash', 'Zoom', 'Url'],
-    //   companionAllowedHosts,
-    // })
+    .use(RemoteSources, {
+      companionUrl: COMPANION_URL,
+      sources: ['GoogleDrive', 'OneDrive'],
+      companionAllowedHosts,
+    })
     // .use(Webcam, {
     //   target: Dashboard,
     //   showVideoSourceDropdown: true,
