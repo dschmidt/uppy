@@ -1,21 +1,28 @@
 const Provider = require('../Provider')
 const logger = require('../../logger')
 const { withProviderErrorHandling } = require('../providerErrors')
+const { getProtectedHttpAgent, validateURL } = require('../../helpers/request')
 
-const getClient = async ({ publicLinkURL }) => {
+const getClient = async ({ publicLinkURL, allowLocalUrls }) => {
+  if (!validateURL(publicLinkURL, allowLocalUrls)) {
+    throw new Error('invalid webdav url')
+  }
+
+
   const { createClient, AuthType } = await import('webdav')
-  const [baseURL, publicLinkToken] = publicLinkURL.split('/s/')
+  const { protocol } = new URL(publicLinkURL)
+  const HttpAgentClass = getProtectedHttpAgent({ protocol, blockLocalIPs: !allowLocalUrls })
 
+  const [baseURL, publicLinkToken] = publicLinkURL.split('/s/')
   return createClient(
     `${baseURL}/public.php/webdav/`,
     {
 
       authType: AuthType.Password,
-      password: 'null',
       username: publicLinkToken,
-      // FIXME: use CSRF protecting agent
-      // httpAgent: ...,
-      // httpsAgent: ...,
+      password: 'null',
+      [protocol === 'https' ? 'httpsAgent' : 'httpAgent'] : new HttpAgentClass(),
+
     },
   )
 }
@@ -33,7 +40,7 @@ class Nextcloud extends Provider {
       const publicLinkURL = this.dynamicOptions?.publicLinkURL
       const username = null
       const data = { username, items: [] }
-      const client = await getClient({ publicLinkURL })
+      const client = await getClient({ publicLinkURL, allowLocalUrls: this.allowLocalUrls })
 
       const path = directory || '/'
 
@@ -65,7 +72,7 @@ class Nextcloud extends Provider {
     return this.#withErrorHandling('provider.nextcloud.download.error', async () => {
       // maybe we can avoid this by putting the username in front of the request path/id
       const publicLinkURL = this.dynamicOptions?.publicLinkURL
-      const client = await getClient({ publicLinkURL })
+      const client = await getClient({ publicLinkURL, allowLocalUrls: this.allowLocalUrls })
       const stream = client.createReadStream(`/${id}`)
       return { stream }
     })
