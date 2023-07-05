@@ -28,9 +28,5 @@
     "start": "npm-run-all --parallel start:server start:client",
     "start:client": "vite",
     "start:server": "node server/index.cjs"
-  },
-  "volta": {
-    "node": "18.16.1",
-    "yarn": "3.6.1"
   }
 }
