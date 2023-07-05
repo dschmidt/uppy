@@ -7,9 +7,9 @@ const getName = (id) => {
   return id.split('-').map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')
 }
 
-const queryString = (params) => {
+const queryString = (params, prefix = '?') => {
   const str = new URLSearchParams(params).toString()
-  return str ? `?${str}` : ''
+  return str ? `${prefix}${str}` : ''
 }
 
 export default class Provider extends RequestClient {
