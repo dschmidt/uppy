@@ -10,6 +10,7 @@ const onedrive = require('./onedrive')
 const unsplash = require('./unsplash')
 const zoom = require('./zoom')
 const webdav = require('./webdav')
+const nextcloud = require('./nextcloud')
 const { getURLBuilder } = require('../helpers/utils')
 const logger = require('../logger')
 const { getCredentialsResolver } = require('./credentials')
@@ -76,7 +77,7 @@ module.exports.getProviderMiddleware = (providers) => {
  * @returns {Record<string, typeof Provider>}
  */
 module.exports.getDefaultProviders = () => {
-  const providers = { dropbox, box, drive, facebook, onedrive, zoom, instagram, unsplash, webdav }
+  const providers = { dropbox, box, drive, facebook, onedrive, zoom, instagram, unsplash, webdav, nextcloud }
 
   return providers
 }

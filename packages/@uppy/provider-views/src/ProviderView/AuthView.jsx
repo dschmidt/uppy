@@ -57,7 +57,7 @@ function AuthView (props) {
         })}
       </div>
       <form className="uppy-Provider-authForm" onSubmit={handleAuth}>
-        {props.inputs.map(
+        {props.inputs?.map(
           (i) => <div className="uppy-Provider-authInput"><label><span>{i.label}</span><input name={i.name} /></label>{i.description && (<span>{i.description}</span>)}</div>,
         )}
         {isGoogleDrive ? (

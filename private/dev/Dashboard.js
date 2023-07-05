@@ -5,6 +5,7 @@ import Dashboard from '@uppy/dashboard'
 import RemoteSources from '@uppy/remote-sources'
 import Webcam from '@uppy/webcam'
 import WebDAV from '@uppy/webdav'
+import Nextcloud from '@uppy/nextcloud'
 import ScreenCapture from '@uppy/screen-capture'
 import GoldenRetriever from '@uppy/golden-retriever'
 import Tus from '@uppy/tus'
@@ -62,7 +63,7 @@ export default () => {
 
   const uppyDashboard = new Uppy({
     logger: debugLogger,
-    onBeforeFileAdded(file) {
+    onBeforeFileAdded (file) {
       console.log('FILE', file)
     },
     meta: {
@@ -85,6 +86,7 @@ export default () => {
       note: `${JSON.stringify(restrictions)}`,
     })
     .use(WebDAV, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
+    .use(Nextcloud, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Instagram, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Dropbox, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Box, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })

@@ -182,17 +182,23 @@ export default class ProviderView extends View {
 
     const formData = new FormData(event.target)
     this.provider.dynamicOptions = Object.fromEntries(formData.entries())
-    this.opts.authInputs.forEach(i => {
+    this.opts.authInputs?.forEach(i => {
       if (!i.serialize) {
         return
       }
       this.provider.dynamicOptions[i.name] = i.serialize(this.provider.dynamicOptions[i.name])
     })
+    const clientVersion = `@uppy/provider-views=${ProviderView.VERSION}`
+
+    if (!this.provider.authentication) {
+      this.plugin.setPluginState({ authenticated: true })
+      this.preFirstRender()
+      return
+    }
 
     await this.provider.ensurePreAuth()
 
     const authState = btoa(JSON.stringify({ origin: getOrigin() }))
-    const clientVersion = `@uppy/provider-views=${ProviderView.VERSION}`
     const link = this.provider.authUrl({ state: authState, uppyVersions: clientVersion })
 
     const authWindow = window.open(link, '_blank')
