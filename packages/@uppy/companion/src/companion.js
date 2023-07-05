@@ -105,9 +105,6 @@ module.exports.app = (optionsArg = {}) => {
   app.use('/connect/:authProvider/:override?', express.urlencoded({ extended: false }), getCredentialsOverrideMiddleware(providers, options))
   app.use(Grant(grantConfig))
 
-  console.log('grantConfig', grantConfig)
-
-
   app.use((req, res, next) => {
     if (options.sendSelfEndpoint) {
       const { protocol } = options.server
