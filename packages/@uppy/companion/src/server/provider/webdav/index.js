@@ -1,4 +1,4 @@
-const { XMLParser } = require("fast-xml-parser");
+const { XMLParser } = require('fast-xml-parser')
 const got = require('got').default
 
 const Provider = require('../Provider')

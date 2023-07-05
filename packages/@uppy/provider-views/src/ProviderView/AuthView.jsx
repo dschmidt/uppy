@@ -56,26 +56,29 @@ function AuthView (props) {
           pluginName: pluginNameComponent,
         })}
       </div>
-      {isGoogleDrive ? (
-        <button
-          type="button"
-          className="uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn uppy-Provider-btn-google"
-          onClick={handleAuth}
-          data-uppy-super-focusable
-        >
-          <GoogleIcon />
-          {i18nArray('signInWithGoogle')}
-        </button>
-      ) : (
-        <button
-          type="button"
-          className="uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn"
-          onClick={handleAuth}
-          data-uppy-super-focusable
-        >
-          {i18nArray('authenticateWith', { pluginName })}
-        </button>
-      )}
+      <form className="uppy-Provider-authForm" onSubmit={handleAuth}>
+        {props.inputs.map(
+          (i) => <div className="uppy-Provider-authInput"><label><span>{i.label}</span><input name={i.name} /></label>{i.description && (<span>{i.description}</span>)}</div>,
+        )}
+        {isGoogleDrive ? (
+          <button
+            type="submit"
+            className="uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn uppy-Provider-btn-google"
+            data-uppy-super-focusable
+          >
+            <GoogleIcon />
+            {i18nArray('signInWithGoogle')}
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="uppy-u-reset uppy-c-btn uppy-c-btn-primary uppy-Provider-authBtn"
+            data-uppy-super-focusable
+          >
+            {i18nArray('authenticateWith', { pluginName })}
+          </button>
+        )}
+      </form>
     </div>
   )
 }
