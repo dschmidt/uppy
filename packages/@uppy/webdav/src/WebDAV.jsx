@@ -47,7 +47,7 @@ export default class WebDAV extends UIPlugin {
         {
           name: 'subdomain',
           label: 'WebDAV URL',
-          description: 'Please provide a URL to a public link.',
+          description: 'Please provide a URL to a Nextcloud server.',
           serialize: (value) => new URL(value).host || value,
         },
       ],
