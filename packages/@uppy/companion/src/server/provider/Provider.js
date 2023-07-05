@@ -6,7 +6,7 @@ class Provider {
    *
    * @param {object} options
    */
-  constructor ({ allowLocalUrls, dynamicOptions }) { // eslint-disable-line no-unused-vars
+  constructor ({ allowLocalUrls, dynamicOptions }) {
     // Some providers might need cookie auth for the thumbnails fetched via companion
     this.needsCookieAuth = false
     this.allowLocalUrls = allowLocalUrls

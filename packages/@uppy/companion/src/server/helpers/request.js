@@ -71,7 +71,6 @@ const validateURL = (url, allowLocalUrls) => {
 
 module.exports.validateURL = validateURL
 
-
 /**
  * Returns http Agent that will prevent requests to private IPs (to prevent SSRF)
  */
