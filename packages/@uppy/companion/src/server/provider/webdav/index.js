@@ -5,8 +5,8 @@ const logger = require('../../logger')
 const { withProviderErrorHandling } = require('../providerErrors')
 const { getProtectedGot, getProtectedHttpAgent, validateURL } = require('../../helpers/request')
 
-const getUsername = async ({ subdomain, token, allowLocalUrls }) => {
-  const url = `http://${subdomain}/ocs/v1.php/cloud/user`
+const getUsername = async ({ protocol, subdomain, token, allowLocalUrls }) => {
+  const url = `${protocol}://${subdomain}/ocs/v1.php/cloud/user`
   if (!validateURL(url, allowLocalUrls)) {
     throw new Error('invalid user url')
   }
@@ -22,14 +22,13 @@ const getUsername = async ({ subdomain, token, allowLocalUrls }) => {
   return data?.ocs?.data?.id
 }
 
-const getClient = async ({ subdomain, username, token, allowLocalUrls }) => {
-  const url = `http://${subdomain}/remote.php/dav/files/${username}`
+const getClient = async ({ protocol, subdomain, username, token, allowLocalUrls }) => {
+  const url = `${protocol}://${subdomain}/remote.php/dav/files/${username}`
   if (!validateURL(url, allowLocalUrls)) {
     throw new Error('invalid webdav url')
   }
 
   const { createClient, AuthType } = await import('webdav')
-  const { protocol } = new URL(url)
   const HttpAgentClass = getProtectedHttpAgent({ protocol, blockLocalIPs: !allowLocalUrls })
 
   return createClient(
@@ -64,11 +63,12 @@ class WebDAV extends Provider {
     return this.#withErrorHandling('provider.webdav.list.error', async () => {
       const { directory, token, query = { cursor: null } } = args
 
-      const subdomain = this.dynamicOptions?.subdomain
+      const { subdomain } = this.dynamicOptions
+      const { protocol } = this.providerOptions
       const { allowLocalUrls } = this
-      const username = await getUsername({ subdomain, token, allowLocalUrls })
+      const username = await getUsername({ protocol, subdomain, token, allowLocalUrls })
       const data = { username, items: [] }
-      const client = await getClient({ subdomain, username, token, allowLocalUrls })
+      const client = await getClient({ protocol, subdomain, username, token, allowLocalUrls })
 
       const path = directory || '/'
 
@@ -99,9 +99,12 @@ class WebDAV extends Provider {
   async download ({ id, token }) {
     return this.#withErrorHandling('provider.webdav.download.error', async () => {
       // maybe we can avoid this by putting the username in front of the request path/id
-      const subdomain = this.dynamicOptions?.subdomain
-      const username = await getUsername({ subdomain, token })
-      const client = await getClient({ subdomain, username, token })
+      const { subdomain } = this.dynamicOptions
+      const { protocol } = this.providerOptions
+      const { allowLocalUrls } = this
+
+      const username = await getUsername({ protocol, subdomain, token, allowLocalUrls })
+      const client = await getClient({ protocol, subdomain, username, token, allowLocalUrls })
       const stream = client.createReadStream(`/${id}`)
       return { stream }
     })

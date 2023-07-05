@@ -55,11 +55,12 @@ module.exports.getProviderMiddleware = (providers) => {
   const middleware = (req, res, next, providerName) => {
     const ProviderClass = providers[providerName]
     if (ProviderClass && validOptions(req.companion.options)) {
+      const providerOptions = req.companion.options.providerOptions[providerName]
       const dynamicOptions = Object.fromEntries(
-        req.companion.options.providerOptions[providerName].dynamic?.map(p => [p, req.query[p]]) || [],
+        providerOptions.dynamic?.map(p => [p, req.query[p]]) || [],
       )
       const { allowLocalUrls } = req.companion.options
-      req.companion.provider = new ProviderClass({ providerName, dynamicOptions, allowLocalUrls })
+      req.companion.provider = new ProviderClass({ providerName, providerOptions, dynamicOptions, allowLocalUrls })
       req.companion.providerClass = ProviderClass
 
       if (isOAuthProvider(ProviderClass.authProvider)) {

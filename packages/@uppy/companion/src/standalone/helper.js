@@ -118,6 +118,7 @@ const getConfigFromEnv = () => {
       webdav: {
         key: process.env.COMPANION_WEBDAV_KEY,
         secret: getSecret('COMPANION_WEBDAV_SECRET'),
+        protocol: process.env.COMPANION_WEBDAV_PROTOCOL || 'https',
       },
       nextcloud: {
         dynamic: ['publicLinkURL'],
