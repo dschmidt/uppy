@@ -55,7 +55,7 @@ module.exports.getProviderMiddleware = (providers) => {
     const ProviderClass = providers[providerName]
     if (ProviderClass && validOptions(req.companion.options)) {
       const dynamicOptions = Object.fromEntries(
-        req.companion.options.providerOptions[providerName].dynamic.map(p => [p, req.query[p]]),
+        req.companion.options.providerOptions[providerName].dynamic?.map(p => [p, req.query[p]]) || [],
       )
       req.companion.provider = new ProviderClass({ providerName, dynamicOptions })
       req.companion.providerClass = ProviderClass
