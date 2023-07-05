@@ -5,8 +5,8 @@ const Provider = require('../Provider')
 const logger = require('../../logger')
 const { withProviderErrorHandling } = require('../providerErrors')
 
-const getUsername = async ({ token }) => {
-  const response = await fetch('http://localhost:9080/ocs/v1.php/cloud/user', {
+const getUsername = async ({ subdomain, token }) => {
+  const response = await fetch(`http://${subdomain}/ocs/v1.php/cloud/user`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`,
@@ -17,18 +17,21 @@ const getUsername = async ({ token }) => {
   return data?.ocs?.data?.id
 }
 
-const getClient = async ({ username, token }) => {
+const getClient = async ({ subdomain, username, token }) => {
   const { createClient, AuthType } = await import('webdav')
 
   // TODO: username will potentially come from an untrusted source ... what can we do to avoid SSRF issues?
   return createClient(
-    `http://localhost:9080/remote.php/dav/files/${username}`,
+    `http://${subdomain}/remote.php/dav/files/${username}`,
     {
       authType: AuthType.Token,
       token: {
         access_token: token,
         token_type: 'Bearer',
       },
+      // FIXME: use CSRF protecting agent
+      // httpAgent: ...,
+      // httpsAgent: ...,
     },
   )
 }
@@ -50,13 +53,12 @@ class WebDAV extends Provider {
 
   async list (args) {
     return this.#withErrorHandling('provider.webdav.list.error', async () => {
-      console.log('GOT', got)
-
       const { directory, token, query = { cursor: null } } = args
 
-      const username = await getUsername({ token })
+      const subdomain = this.dynamicOptions?.subdomain
+      const username = await getUsername({ subdomain, token })
       const data = { username, items: [] }
-      const client = await getClient({ username, token })
+      const client = await getClient({ subdomain, username, token })
 
       const path = directory || '/'
 
@@ -87,8 +89,9 @@ class WebDAV extends Provider {
   async download ({ id, token }) {
     return this.#withErrorHandling('provider.webdav.download.error', async () => {
       // maybe we can avoid this by putting the username in front of the request path/id
-      const username = await getUsername({ token })
-      const client = await getClient({ username, token })
+      const subdomain = this.dynamicOptions?.subdomain
+      const username = await getUsername({ subdomain, token })
+      const client = await getClient({ subdomain, username, token })
       const stream = client.createReadStream(`/${id}`)
       return { stream }
     })

@@ -6,9 +6,12 @@ class Provider {
    *
    * @param {object} options
    */
-  constructor (options) { // eslint-disable-line no-unused-vars
+  constructor ({ dynamicOptions }) { // eslint-disable-line no-unused-vars
     // Some providers might need cookie auth for the thumbnails fetched via companion
     this.needsCookieAuth = false
+    if (dynamicOptions) {
+      this.dynamicOptions = dynamicOptions
+    }
     return this
   }
 

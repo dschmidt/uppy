@@ -57,6 +57,9 @@ export default class WebDAV extends UIPlugin {
   }
 
   onFirstRender () {
+    this.provider.dynamicOptions = {
+      subdomain: 'localhost:9080',
+    }
     return Promise.all([
       this.provider.fetchPreAuthToken(),
       this.view.getFolder(),

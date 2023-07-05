@@ -182,7 +182,7 @@ export default class ProviderView extends View {
 
     const authState = btoa(JSON.stringify({ origin: getOrigin() }))
     const clientVersion = `@uppy/provider-views=${ProviderView.VERSION}`
-    const link = this.provider.authUrl({ state: authState, uppyVersions: clientVersion, subdomain: 'localhost:9080' })
+    const link = this.provider.authUrl({ state: authState, uppyVersions: clientVersion })
 
     const authWindow = window.open(link, '_blank')
     const handleToken = (e) => {

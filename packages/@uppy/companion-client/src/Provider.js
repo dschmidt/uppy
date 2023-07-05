@@ -7,6 +7,11 @@ const getName = (id) => {
   return id.split('-').map((s) => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')
 }
 
+const queryString = (params) => {
+  const str = new URLSearchParams(params).toString()
+  return str ? `?${str}` : ''
+}
+
 export default class Provider extends RequestClient {
   #refreshingTokenPromise
 
@@ -72,20 +77,22 @@ export default class Provider extends RequestClient {
   }
 
   authUrl (queries = {}) {
-    const params = new URLSearchParams(queries)
-    if (this.preAuthToken) {
-      params.set('uppyPreAuthToken', this.preAuthToken)
-    }
-
-    return `${this.hostname}/${this.id}/connect?${params}`
+    const qs = queryString({
+      ...queries,
+      ...this.dynamicOptions,
+      ...(this.preAuthToken && {
+        uppyPreAuthToken: this.preAuthToken,
+      }),
+    })
+    return `${this.hostname}/${this.id}/connect${qs}`
   }
 
   refreshTokenUrl () {
-    return `${this.hostname}/${this.id}/refresh-token`
+    return `${this.hostname}/${this.id}/refresh-token${queryString(this.dynamicOptions)}`
   }
 
   fileUrl (id) {
-    return `${this.hostname}/${this.id}/get/${id}`
+    return `${this.hostname}/${this.id}/get/${id}${queryString(this.dynamicOptions)}`
   }
 
   /** @protected */
@@ -132,11 +139,11 @@ export default class Provider extends RequestClient {
   }
 
   list (directory) {
-    return this.get(`${this.id}/list/${directory || ''}`)
+    return this.get(`${this.id}/list/${directory || ''}${queryString(this.dynamicOptions)}`)
   }
 
   async logout () {
-    const response = await this.get(`${this.id}/logout`)
+    const response = await this.get(`${this.id}/logout${queryString(this.dynamicOptions)}`)
     await this.#removeAuthToken()
     return response
   }

@@ -20,8 +20,6 @@ const { getCompanionOptions, generateSecret, buildHelpfulStartupMessage } = requ
 module.exports = function server (inputCompanionOptions) {
   const companionOptions = getCompanionOptions(inputCompanionOptions)
 
-  console.log("options", companionOptions)
-
   companion.setLoggerProcessName(companionOptions)
 
   if (!companionOptions.secret) companionOptions.secret = generateSecret()
