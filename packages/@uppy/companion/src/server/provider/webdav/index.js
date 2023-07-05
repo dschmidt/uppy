@@ -3,10 +3,14 @@ const { XMLParser } = require('fast-xml-parser')
 const Provider = require('../Provider')
 const logger = require('../../logger')
 const { withProviderErrorHandling } = require('../providerErrors')
-const { getProtectedGot, getProtectedHttpAgent } = require('../../helpers/request')
+const { getProtectedGot, getProtectedHttpAgent, validateURL } = require('../../helpers/request')
 
 const getUsername = async ({ subdomain, token, allowLocalUrls }) => {
   const url = `http://${subdomain}/ocs/v1.php/cloud/user`
+  if (!validateURL(url, allowLocalUrls)) {
+    throw new Error('invalid user url')
+  }
+
   const response = await getProtectedGot({ url, blockLocalIPs: !allowLocalUrls }).get(url, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -19,13 +23,15 @@ const getUsername = async ({ subdomain, token, allowLocalUrls }) => {
 }
 
 const getClient = async ({ subdomain, username, token, allowLocalUrls }) => {
-  const { createClient, AuthType } = await import('webdav')
-
   const url = `http://${subdomain}/remote.php/dav/files/${username}`
+  if (!validateURL(url, allowLocalUrls)) {
+    throw new Error('invalid webdav url')
+  }
+
+  const { createClient, AuthType } = await import('webdav')
   const { protocol } = new URL(url)
   const HttpAgentClass = getProtectedHttpAgent({ protocol, blockLocalIPs: !allowLocalUrls })
 
-  // TODO: username will potentially come from an untrusted source ... what can we do to avoid SSRF issues?
   return createClient(
     url,
     {
