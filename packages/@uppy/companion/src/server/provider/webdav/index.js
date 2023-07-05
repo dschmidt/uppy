@@ -1,37 +1,40 @@
 const { XMLParser } = require('fast-xml-parser')
-const got = require('got').default
 
 const Provider = require('../Provider')
 const logger = require('../../logger')
 const { withProviderErrorHandling } = require('../providerErrors')
+const { getProtectedGot, getProtectedHttpAgent } = require('../../helpers/request')
 
-const getUsername = async ({ subdomain, token }) => {
-  const response = await fetch(`http://${subdomain}/ocs/v1.php/cloud/user`, {
-    method: 'GET',
+const getUsername = async ({ subdomain, token, allowLocalUrls }) => {
+  const url = `http://${subdomain}/ocs/v1.php/cloud/user`
+  const response = await getProtectedGot({ url, blockLocalIPs: !allowLocalUrls }).get(url, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
-  })
+  }).text()
+
   const parser = new XMLParser()
-  const data = parser.parse(await response.text())
+  const data = parser.parse(response)
   return data?.ocs?.data?.id
 }
 
-const getClient = async ({ subdomain, username, token }) => {
+const getClient = async ({ subdomain, username, token, allowLocalUrls }) => {
   const { createClient, AuthType } = await import('webdav')
+
+  const url = `http://${subdomain}/remote.php/dav/files/${username}`
+  const { protocol } = new URL(url)
+  const HttpAgentClass = getProtectedHttpAgent({ protocol, blockLocalIPs: !allowLocalUrls })
 
   // TODO: username will potentially come from an untrusted source ... what can we do to avoid SSRF issues?
   return createClient(
-    `http://${subdomain}/remote.php/dav/files/${username}`,
+    url,
     {
       authType: AuthType.Token,
       token: {
         access_token: token,
         token_type: 'Bearer',
       },
-      // FIXME: use CSRF protecting agent
-      // httpAgent: ...,
-      // httpsAgent: ...,
+      [protocol === 'https' ? 'httpsAgent' : 'httpAgent'] : new HttpAgentClass(),
     },
   )
 }
@@ -56,9 +59,10 @@ class WebDAV extends Provider {
       const { directory, token, query = { cursor: null } } = args
 
       const subdomain = this.dynamicOptions?.subdomain
-      const username = await getUsername({ subdomain, token })
+      const { allowLocalUrls } = this
+      const username = await getUsername({ subdomain, token, allowLocalUrls })
       const data = { username, items: [] }
-      const client = await getClient({ subdomain, username, token })
+      const client = await getClient({ subdomain, username, token, allowLocalUrls })
 
       const path = directory || '/'
 
