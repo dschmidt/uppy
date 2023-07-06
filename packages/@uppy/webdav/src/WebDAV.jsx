@@ -28,7 +28,7 @@ export default class WebDAV extends UIPlugin {
       companionHeaders: this.opts.companionHeaders,
       companionKeysParams: this.opts.companionKeysParams,
       companionCookiesRule: this.opts.companionCookiesRule,
-      provider: 'webdav',
+      provider: 'webdavAuth',
       pluginId: this.id,
     })
 

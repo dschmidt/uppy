@@ -34,7 +34,7 @@ module.exports = function connect (req, res) {
 
   const providerName = req.companion.provider.authProvider
   const qs = queryString(Object.fromEntries(
-    req.companion.options.providerOptions[providerName].dynamic?.map(p => [p, req.query[p]]) || [],
+    req.companion.options.providerOptions[providerName]?.dynamic?.map(p => [p, req.query[p]]) || [],
   ), '&')
 
   res.redirect(req.companion.buildURL(`/connect/${providerName}?state=${state}${qs}`, true))

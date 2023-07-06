@@ -28,7 +28,7 @@ export default class Nextcloud extends UIPlugin {
       companionHeaders: this.opts.companionHeaders,
       companionKeysParams: this.opts.companionKeysParams,
       companionCookiesRule: this.opts.companionCookiesRule,
-      provider: 'nextcloud',
+      provider: 'webdavPublicLink',
       pluginId: this.id,
       authentication: false,
     })

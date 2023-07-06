@@ -44,7 +44,7 @@ module.exports = () => {
       access_url: 'https://zoom.us/oauth/token',
       callback: '/zoom/callback',
     },
-    webdav: {
+    webdavAuth: {
       transport: 'session',
       dynamic: [
         'subdomain',
@@ -53,7 +53,7 @@ module.exports = () => {
       access_url: 'http://[subdomain]/apps/oauth2/api/v1/token',
       scope: ['profile'],
       oauth: 2,
-      callback: '/webdav/callback',
+      callback: '/webdavAuth/callback',
     },
   }
 }
