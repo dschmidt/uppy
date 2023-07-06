@@ -65,7 +65,7 @@ export default class WebdavPublicLink extends UIPlugin {
   }
 
   onFirstRender () {
-    if (!this.provider.dynamicOptions?.publicLinkURL) {
+    if (!this.provider.cutomQueryParams?.publicLinkURL) {
       return true
     }
     return this.view.getFolder()

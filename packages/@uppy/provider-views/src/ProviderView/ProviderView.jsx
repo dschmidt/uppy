@@ -181,12 +181,12 @@ export default class ProviderView extends View {
     event.preventDefault()
 
     const formData = new FormData(event.target)
-    this.provider.dynamicOptions = Object.fromEntries(formData.entries())
+    this.provider.cutomQueryParams = Object.fromEntries(formData.entries())
     this.opts.authInputs?.forEach(i => {
       if (!i.serialize) {
         return
       }
-      this.provider.dynamicOptions[i.name] = i.serialize(this.provider.dynamicOptions[i.name])
+      this.provider.cutomQueryParams[i.name] = i.serialize(this.provider.cutomQueryParams[i.name])
     })
     const clientVersion = `@uppy/provider-views=${ProviderView.VERSION}`
 

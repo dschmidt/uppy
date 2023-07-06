@@ -80,7 +80,7 @@ export default class Provider extends RequestClient {
   authUrl (queries = {}) {
     const qs = queryString({
       ...queries,
-      ...this.dynamicOptions,
+      ...this.cutomQueryParams,
       ...(this.preAuthToken && {
         uppyPreAuthToken: this.preAuthToken,
       }),
@@ -89,11 +89,11 @@ export default class Provider extends RequestClient {
   }
 
   refreshTokenUrl () {
-    return `${this.hostname}/${this.id}/refresh-token${queryString(this.dynamicOptions)}`
+    return `${this.hostname}/${this.id}/refresh-token${queryString(this.cutomQueryParams)}`
   }
 
   fileUrl (id) {
-    return `${this.hostname}/${this.id}/get/${id}${queryString(this.dynamicOptions)}`
+    return `${this.hostname}/${this.id}/get/${id}${queryString(this.cutomQueryParams)}`
   }
 
   /** @protected */
@@ -140,14 +140,14 @@ export default class Provider extends RequestClient {
   }
 
   list (directory) {
-    return this.get(`${this.id}/list/${directory || ''}${queryString(this.dynamicOptions)}`)
+    return this.get(`${this.id}/list/${directory || ''}${queryString(this.cutomQueryParams)}`)
   }
 
   async logout () {
     if (!this.authentication) {
       return Promise.resolve({ ok: true, revoked: true })
     }
-    const response = await this.get(`${this.id}/logout${queryString(this.dynamicOptions)}`)
+    const response = await this.get(`${this.id}/logout${queryString(this.cutomQueryParams)}`)
     await this.#removeAuthToken()
     return response
   }
