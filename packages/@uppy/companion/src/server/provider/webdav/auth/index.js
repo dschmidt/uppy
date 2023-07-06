@@ -1,12 +1,21 @@
 const { XMLParser } = require('fast-xml-parser')
 
-const WebDavProvider = require('../WebDavProvider')
+const WebdavProvider = require('../WebdavProvider')
 const { getProtectedGot, validateURL } = require('../../../helpers/request')
 
-class WebDavAuth extends WebDavProvider {
+const cloudTypePathMappings = {
+  nextcloud: {
+    manual_revoke_url: '/settings/user/security',
+  },
+  owncloud: {
+    manual_revoke_url: '/settings/personal?sectionid=security',
+  },
+}
+
+class WebdavAuth extends WebdavProvider {
   constructor (options) {
     super(options)
-    this.authProvider = WebDavAuth.authProvider
+    this.authProvider = WebdavAuth.authProvider
   }
 
   // for "grant"
@@ -58,10 +67,13 @@ class WebDavAuth extends WebDavProvider {
     })
   }
 
-  async logout () { // eslint-disable-line class-methods-use-this
-    // FIXME: adjust url
-    return { revoked: false, manual_revoke_url: `${this.getBaseUrl()}/settings/user/security` }
+  async logout ({ query: { cloudType } }) {
+    const manual_revoke_url = cloudTypePathMappings[cloudType]?.manual_revoke_url
+    return {
+      revoked: false,
+      ...(manual_revoke_url && { manual_revoke_url: `${this.getBaseUrl()}${manual_revoke_url}` }),
+    }
   }
 }
 
-module.exports = WebDavAuth
+module.exports = WebdavAuth

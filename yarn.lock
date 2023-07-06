@@ -10772,19 +10772,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@uppy/nextcloud@workspace:packages/@uppy/nextcloud":
-  version: 0.0.0-use.local
-  resolution: "@uppy/nextcloud@workspace:packages/@uppy/nextcloud"
-  dependencies:
-    "@uppy/companion-client": "workspace:^"
-    "@uppy/provider-views": "workspace:^"
-    "@uppy/utils": "workspace:^"
-    preact: ^10.5.13
-  peerDependencies:
-    "@uppy/core": "workspace:^"
-  languageName: unknown
-  linkType: soft
-
 "@uppy/onedrive@workspace:^, @uppy/onedrive@workspace:packages/@uppy/onedrive":
   version: 0.0.0-use.local
   resolution: "@uppy/onedrive@workspace:packages/@uppy/onedrive"

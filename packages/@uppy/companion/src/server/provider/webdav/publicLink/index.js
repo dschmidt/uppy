@@ -1,7 +1,7 @@
-const WebDavProvider = require('../WebDavProvider')
+const WebdavProvider = require('../WebdavProvider')
 const { validateURL } = require('../../../helpers/request')
 
-class WebDavPublicLink extends WebDavProvider {
+class WebdavPublicLink extends WebdavProvider {
   async getUsername () { // eslint-disable-line class-methods-use-this
     return null
   }
@@ -28,4 +28,4 @@ class WebDavPublicLink extends WebDavProvider {
   }
 }
 
-module.exports = WebDavPublicLink
+module.exports = WebdavPublicLink

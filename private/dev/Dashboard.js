@@ -4,8 +4,7 @@ import Uppy, { debugLogger } from '@uppy/core'
 import Dashboard from '@uppy/dashboard'
 import RemoteSources from '@uppy/remote-sources'
 import Webcam from '@uppy/webcam'
-import WebDAV from '@uppy/webdav'
-import Nextcloud from '@uppy/nextcloud'
+import { WebdavAuth, WebdavPublicLink } from '@uppy/webdav'
 import ScreenCapture from '@uppy/screen-capture'
 import GoldenRetriever from '@uppy/golden-retriever'
 import Tus from '@uppy/tus'
@@ -85,8 +84,8 @@ export default () => {
       proudlyDisplayPoweredByUppy: true,
       note: `${JSON.stringify(restrictions)}`,
     })
-    .use(WebDAV, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
-    .use(Nextcloud, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
+    .use(WebdavAuth, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
+    .use(WebdavPublicLink, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Instagram, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Dropbox, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Box, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })

@@ -1,7 +1,7 @@
 const atob = require('atob')
 const oAuthState = require('../helpers/oauth-state')
 
-const queryString = (params, prefix = '?') => {
+const queryString = (params, prefix = '') => {
   const str = new URLSearchParams(params).toString()
   return str ? `${prefix}${str}` : ''
 }
