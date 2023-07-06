@@ -1,9 +1,9 @@
 import Uppy from '@uppy/core'
-import Nextcloud from '..'
+import WebdavPublicLink from '.'
 
 {
   const uppy = new Uppy()
-  uppy.use(Nextcloud, {
+  uppy.use(WebdavPublicLink, {
     companionUrl: '',
     companionCookiesRule: 'same-origin',
     target: 'body',

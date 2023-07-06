@@ -1,12 +1,12 @@
 import type { PluginOptions, UIPlugin, PluginTarget } from '@uppy/core'
 import type { PublicProviderOptions, TokenStorage } from '@uppy/companion-client'
 
-export interface WebDAVOptions extends PluginOptions, PublicProviderOptions {
+export interface WebdavAuthOptions extends PluginOptions, PublicProviderOptions {
     target?: PluginTarget
     title?: string
     storage?: TokenStorage
 }
 
-declare class WebDAV extends UIPlugin<WebDAVOptions> {}
+declare class WebdavAuth extends UIPlugin<WebdavAuthOptions> {}
 
-export default WebDAV
+export default WebdavAuth

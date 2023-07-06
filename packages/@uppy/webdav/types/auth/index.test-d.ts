@@ -1,9 +1,9 @@
 import Uppy from '@uppy/core'
-import WebDAV from '..'
+import WebdavAuth from '.'
 
 {
   const uppy = new Uppy()
-  uppy.use(WebDAV, {
+  uppy.use(WebdavAuth, {
     companionUrl: '',
     companionCookiesRule: 'same-origin',
     target: 'body',
