@@ -196,7 +196,6 @@ export default class ProviderView extends View {
       }
       this.provider.cutomQueryParams[i.name] = i.serialize(this.provider.cutomQueryParams[i.name])
     })
-    const clientVersion = `@uppy/provider-views=${ProviderView.VERSION}`
 
     if (!this.provider.authentication) {
       this.plugin.setPluginState({ authenticated: true })
@@ -207,6 +206,7 @@ export default class ProviderView extends View {
     await this.provider.ensurePreAuth()
 
     const authState = btoa(JSON.stringify({ origin: getOrigin() }))
+    const clientVersion = `@uppy/provider-views=${ProviderView.VERSION}`
     const link = this.provider.authUrl({ state: authState, uppyVersions: clientVersion })
 
     const authWindow = window.open(link, '_blank')
