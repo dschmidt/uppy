@@ -36814,7 +36814,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"webdav@npm:^5.2.2":
+"webdav@npm:5.2.2":
   version: 5.2.2
   resolution: "webdav@npm:5.2.2"
   dependencies:
@@ -36832,6 +36832,27 @@ __metadata:
     url-join: ^4.0.1
     url-parse: ^1.5.10
   checksum: a5621a150ecb81d906fa61703f0ea5a9584ac11a9cb1fc5566c800055fe19b596c729c6f57a7f817b67e2121386220810c1ffff54102b224802a23a068c0ddd2
+  languageName: node
+  linkType: hard
+
+"webdav@patch:webdav@npm%3A5.2.2#./.yarn/patches/webdav-npm-5.2.2-791e72c3de.patch::locator=%40uppy-dev%2Fbuild%40workspace%3A.":
+  version: 5.2.2
+  resolution: "webdav@patch:webdav@npm%3A5.2.2#./.yarn/patches/webdav-npm-5.2.2-791e72c3de.patch::version=5.2.2&hash=b1e9cf&locator=%40uppy-dev%2Fbuild%40workspace%3A."
+  dependencies:
+    "@buttercup/fetch": ^0.1.1
+    base-64: ^1.0.0
+    byte-length: ^1.0.2
+    fast-xml-parser: ^4.2.4
+    he: ^1.2.0
+    hot-patcher: ^2.0.0
+    layerr: ^0.1.2
+    md5: ^2.3.0
+    minimatch: ^5.1.0
+    nested-property: ^4.0.0
+    path-posix: ^1.0.0
+    url-join: ^4.0.1
+    url-parse: ^1.5.10
+  checksum: 8dada8867e9b55a3a5949b32df5f5bd4add7486141c513a2b49ca218b0e1f887a7d42014bdb15e398100de9da68f69228f6ad3d492356d5467ca0de50852f7d4
   languageName: node
   linkType: hard
 

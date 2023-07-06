@@ -96,7 +96,7 @@ class WebdavProvider extends Provider {
       tag,
       isAuthError: (response) => response.statusCode === 190, // Invalid OAuth 2.0 Access Token
       getJsonErrorMessage: (body) => body?.error?.message,
-      ...(this.authProvider && { providerName: this.authProvider }),
+      providerName: 'webdav',
     })
   }
 }
