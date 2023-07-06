@@ -1,5 +1,5 @@
 export default {
   strings: {
-    pluginNameWebDAV: 'WebDAV',
+    pluginNameWebDavAuth: 'WebDAV',
   },
 }

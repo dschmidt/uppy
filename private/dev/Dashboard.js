@@ -84,8 +84,15 @@ export default () => {
       proudlyDisplayPoweredByUppy: true,
       note: `${JSON.stringify(restrictions)}`,
     })
+    .use(WebdavAuth, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts, cloudType: 'owncloud' })
+    .use(WebdavPublicLink, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts, cloudType: 'owncloud' })
+
+    .use(WebdavAuth, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts, cloudType: 'nextcloud' })
+    .use(WebdavPublicLink, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts, cloudType: 'nextcloud' })
+
     .use(WebdavAuth, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     .use(WebdavPublicLink, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
+
     // .use(Instagram, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Dropbox, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })
     // .use(Box, { target: Dashboard, companionUrl: COMPANION_URL, companionAllowedHosts })

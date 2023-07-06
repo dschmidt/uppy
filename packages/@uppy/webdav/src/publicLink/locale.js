@@ -1,5 +1,5 @@
 export default {
   strings: {
-    pluginNameWebdavPublicLink: 'Nextcloud',
+    pluginNameWebdavPublicLink: 'Public Link',
   },
 }
