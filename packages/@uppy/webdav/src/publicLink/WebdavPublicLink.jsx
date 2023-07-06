@@ -1,12 +1,10 @@
-import { h } from 'preact'
-
 import { UIPlugin } from '@uppy/core'
 import { Provider } from '@uppy/companion-client'
 import { ProviderViews } from '@uppy/provider-views'
 
 import packageJson from '../../package.json'
-import locale from './locale.js'
-import * as cloudTypes from '../../cloudTypes'
+import locale from '../locale.js'
+import * as cloudTypes from '../../cloudTypes/index.js'
 
 export default class WebdavPublicLink extends UIPlugin {
   static VERSION = packageJson.version

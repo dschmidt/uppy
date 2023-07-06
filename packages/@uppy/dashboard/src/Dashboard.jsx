@@ -1,4 +1,3 @@
-import { h } from 'preact'
 import { UIPlugin } from '@uppy/core'
 import StatusBar from '@uppy/status-bar'
 import Informer from '@uppy/informer'
@@ -6,7 +5,7 @@ import ThumbnailGenerator from '@uppy/thumbnail-generator'
 import findAllDOMElements from '@uppy/utils/lib/findAllDOMElements'
 import toArray from '@uppy/utils/lib/toArray'
 import getDroppedFiles from '@uppy/utils/lib/getDroppedFiles'
-import { defaultPickerIcon } from '@uppy/provider-views/src/ProviderView/ProviderView.jsx'
+import { defaultPickerIcon } from '@uppy/provider-views'
 
 import { nanoid } from 'nanoid/non-secure'
 import memoizeOne from 'memoize-one'

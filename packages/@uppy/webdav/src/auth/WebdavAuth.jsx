@@ -1,12 +1,10 @@
-import { h } from 'preact'
-
 import { UIPlugin } from '@uppy/core'
 import { Provider } from '@uppy/companion-client'
 import { ProviderViews } from '@uppy/provider-views'
 
 import packageJson from '../../package.json'
-import locale from './locale.js'
-import * as cloudTypes from '../../cloudTypes'
+import locale from '../locale.js'
+import * as cloudTypes from '../../cloudTypes/index.js'
 
 export default class WebdavAuth extends UIPlugin {
   static VERSION = packageJson.version
@@ -20,7 +18,7 @@ export default class WebdavAuth extends UIPlugin {
     this.defaultLocale = locale
 
     this.i18nInit()
-    this.title = this.cloudType?.displayName || this.i18n('pluginNameWebDavAuth')
+    this.title = this.cloudType?.displayName || this.i18n('pluginNameWebdavAuth')
 
     this.provider = new Provider(uppy, {
       companionUrl: this.opts.companionUrl,
