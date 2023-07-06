@@ -6,14 +6,11 @@ class Provider {
    *
    * @param {object} options
    */
-  constructor ({ allowLocalUrls, providerOptions, dynamicOptions }) {
+  constructor ({ allowLocalUrls, providerOptions }) {
     // Some providers might need cookie auth for the thumbnails fetched via companion
     this.needsCookieAuth = false
     this.allowLocalUrls = allowLocalUrls
     this.providerOptions = providerOptions
-    if (dynamicOptions) {
-      this.dynamicOptions = dynamicOptions
-    }
     return this
   }
 

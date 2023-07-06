@@ -27,17 +27,16 @@ class WebdavAuth extends WebdavProvider {
     return 'webdavAuth'
   }
 
-  getBaseUrl () {
-    const { subdomain } = this.dynamicOptions
+  getBaseUrl ({ query: { subdomain } }) {
     const { protocol } = this.providerOptions
 
     return `${protocol}://${subdomain}`
   }
 
-  async getUsername ({ token }) {
+  async getUsername ({ token, query }) {
     const { allowLocalUrls } = this
 
-    const url = `${this.getBaseUrl()}/ocs/v1.php/cloud/user`
+    const url = `${this.getBaseUrl({ query })}/ocs/v1.php/cloud/user`
     if (!validateURL(url, allowLocalUrls)) {
       throw new Error('invalid user url')
     }
@@ -53,8 +52,8 @@ class WebdavAuth extends WebdavProvider {
     return data?.ocs?.data?.id
   }
 
-  async getClient ({ username, token }) {
-    const url = `${this.getBaseUrl()}/remote.php/dav/files/${username}`
+  async getClient ({ username, token, query }) {
+    const url = `${this.getBaseUrl({ query })}/remote.php/dav/files/${username}`
 
     const { AuthType } = await import('webdav')
     return this.getClientHelper({
@@ -67,11 +66,12 @@ class WebdavAuth extends WebdavProvider {
     })
   }
 
-  async logout ({ query: { cloudType } }) {
+  async logout ({ query }) {
+    const { cloudType } = query
     const manual_revoke_url = cloudTypePathMappings[cloudType]?.manual_revoke_url
     return {
       revoked: false,
-      ...(manual_revoke_url && { manual_revoke_url: `${this.getBaseUrl()}${manual_revoke_url}` }),
+      ...(manual_revoke_url && { manual_revoke_url: `${this.getBaseUrl({ query })}${manual_revoke_url}` }),
     }
   }
 }

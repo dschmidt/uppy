@@ -6,8 +6,8 @@ class WebdavPublicLink extends WebdavProvider {
     return null
   }
 
-  async getClient () {
-    const publicLinkURL = this.dynamicOptions?.publicLinkURL
+  async getClient ({ query }) {
+    const publicLinkURL = query?.publicLinkURL
     const { allowLocalUrls } = this
     if (!validateURL(publicLinkURL, allowLocalUrls)) {
       throw new Error('invalid public link url')
