@@ -121,7 +121,6 @@ const getConfigFromEnv = () => {
         protocol: process.env.COMPANION_WEBDAV_PROTOCOL || 'https',
       },
       webdavPublicLink: {
-        dynamic: ['publicLinkURL'],
         key: 'webdav_public_link_needs_no_key',
       },
     },
